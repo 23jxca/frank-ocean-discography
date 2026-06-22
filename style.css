@@ -1,0 +1,273 @@
+@font-face {
+    font-family: 'Novecento sans';
+    src: url('Bringbold.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Novecento sans', sans-serif;
+    background: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    font-size: xx-large;
+    letter-spacing: 5px;
+    background: #111;
+    color: white;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.albums {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.album {
+    position: absolute;
+    width: 300px;
+    max-width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    display: flex;
+    flex-direction: column;
+    transform-origin: center;
+    z-index: 1;
+    padding: 0;
+    overflow: hidden;
+}
+
+.album:nth-child(1) {
+    left: 5%;
+    top: 30%;
+    transform: rotate(-12deg) scale(0.9);
+    z-index: 1;
+}
+.album:nth-child(2) {
+    left: 30%;
+    top: 10%;
+    transform: rotate(0deg) scale(1);
+    z-index: 2;
+}
+.album:nth-child(3) {
+    left: 55%;
+    top: 30%;
+    transform: rotate(12deg) scale(0.9);
+    z-index: 1;
+}
+
+.album:not(.active):not(.collapsed):hover {
+    transform: translateY(-30px) scale(1.05) !important;
+    z-index: 10 !important;
+    box-shadow: 0 30px 50px rgba(0,0,0,0.6);
+}
+
+.album.active {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    width: 90%;
+    max-width: 700px;
+    height: 90vh;
+    max-height: 90vh;
+    z-index: 1000 !important;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+    cursor: default;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 20px;
+}
+
+.album.active .scroll-content {
+    height: 100%;
+    overflow-y: auto;
+    padding: 30px;
+    scrollbar-width: none;
+}
+.album.active .scroll-content::-webkit-scrollbar {
+    display: none;
+}
+
+.album.collapsed {
+    position: absolute !important;
+    left: 0% !important;
+    top: 85% !important;
+    transform: scale(0.3) rotate(0deg) !important;
+    opacity: 0.3;
+    z-index: 0 !important;
+    pointer-events: none;
+    width: 150px;
+}
+
+.album-endless {
+    background: #202020;
+    color: white;
+}
+.album-nostalgia {
+    background: #c4441c;
+    color: white;
+}
+.album-lonny {
+    background: #00ab77;
+    color: #ededed;
+}
+
+.cover {
+    width: 100%;
+    text-align: center;
+}
+
+.cover img {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.cover h2 {
+    margin: 15px 0 10px;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Zmiana: ukrywanie listy przez display:none, a po otwarciu display:block */
+.tracks {
+    width: 100%;
+    display: none;
+    margin-top: 0;
+    pointer-events: none;
+}
+
+.album.active .tracks,
+.album.open .tracks {
+    display: block;
+    margin-top: 20px;
+    pointer-events: auto;
+}
+
+.track {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 0;
+    gap: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.05);
+    transition: background 0.2s;
+}
+
+.track:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.track a {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.play-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.play-btn:hover {
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+
+.progress-wrap {
+    flex: 1;
+    height: 10px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: white;
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.time {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    min-width: 85px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .album {
+        width: 240px;
+        padding: 0;
+    }
+    .album:nth-child(1) { left: 2%; top: 25%; }
+    .album:nth-child(2) { left: 28%; top: 10%; }
+    .album:nth-child(3) { left: 54%; top: 25%; }
+    .cover h2 { font-size: 1.4rem; }
+    .track a { font-size: 1rem; }
+    .album.active { width: 95%; max-width: 95%; height: 95vh; max-height: 95vh; }
+    .album.collapsed { width: 100px; left: 0% !important; top: 85% !important; }
+    .album.active .scroll-content { padding: 20px; }
+}
